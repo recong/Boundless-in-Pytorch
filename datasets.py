@@ -23,8 +23,9 @@ def denormalize(tensors):
 
 
 class ImageDataset(Dataset):
-    def __init__(self, root, hr_shape):
+    def __init__(self, root, hr_shape, ratio):
         self.hr_shape = hr_shape
+        self.ratio = ratio
         # Transforms for low resolution images and high resolution images
         self.transform = transforms.Compose(
             [transforms.ToTensor(),
@@ -36,7 +37,8 @@ class ImageDataset(Dataset):
 
     def __getitem__(self, index):
         hr_shape = self.hr_shape
-        edge = int(hr_shape * 0.25)
+        ratio = self.ratio
+        edge = int(hr_shape * ratio)
         a = Image.open(self.files[index % len(self.files)])
         width, height = a.size
         a = np.asarray(a).astype("f").transpose(2, 0, 1) / 127.5 - 1.0

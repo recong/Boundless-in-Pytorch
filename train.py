@@ -1,5 +1,5 @@
 import argparse
-from _datetime import datetime
+from datetime import datetime
 
 from torchvision.utils import save_image
 
@@ -31,6 +31,7 @@ parser.add_argument("--warmup_epochs", type=int, default=0, help="number of epoc
 parser.add_argument("--lambda_adv", type=float, default=1e-2, help="adversarial loss weight")
 parser.add_argument("--save_images", default='images', help="where to store images")
 parser.add_argument("--save_models", default='saved_models', help="where to save models")
+parser.add_argument("--mask_ratio", type=float, default=0.25, help="the ratio of pixels in the image are respectively masked")
 opt = parser.parse_args()
 print(opt)
 
@@ -72,7 +73,7 @@ optimizer_D = torch.optim.Adam(discriminator.parameters(), lr=opt.lr_d, betas=(o
 Tensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.Tensor
 
 dataloader = DataLoader(
-    ImageDataset("%s" % opt.dataset_name, hr_shape=hr_shape),
+    ImageDataset("%s" % opt.dataset_name, hr_shape=hr_shape, ratio=opt.mask_ratio),
     batch_size=opt.batch_size,
     shuffle=True,
     num_workers=opt.n_cpu,
