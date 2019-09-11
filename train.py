@@ -2,14 +2,12 @@ import argparse
 from datetime import datetime
 
 from torchvision.utils import save_image
-
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 
 from models import *
 from datasets import *
 from torchsummary import summary
-from torch.backends import cudnn
 
 import torch
 

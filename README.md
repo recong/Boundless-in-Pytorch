@@ -16,9 +16,12 @@ random
 glob
 ```
 
-## Usage
+## Train
 1. Set the datasets of images(> 512 x 512) in the folder './Pic'
-2. Run the sript using command 'python train.py'
+2. Run the script using command 'python train.py'
+
+## Test
+1. Run the script using command 'python test.py'
 
 
 In this code, input size is 512 x 512(in original paper, 257 x 257).
