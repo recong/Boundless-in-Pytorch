@@ -13,12 +13,12 @@ from datasets import *
 parser = argparse.ArgumentParser()
 parser.add_argument("--image_path", default='Sample/lena_color_512.png')
 parser.add_argument("--output", default='output', help="where to save output")
-parser.add_argument("--checkpoint_model", default="saved_models_3/generator_2000.pth", help="generator model pass")
+parser.add_argument("--model", default="saved_models/generator_1000.pth", help="generator model pass")
 parser.add_argument("--mask_ratio", type=float, default=0.25, help="the ratio of pixels in the image are respectively masked")
 parser.add_argument("--gpu", type=int, default=0, help="gpu number")
 opt = parser.parse_args()
 
-os.makedirs("output", exist_ok=True)
+os.makedirs(opt.output, exist_ok=True)
 
 if torch.cuda.is_available():
     torch.cuda.set_device(opt.gpu)
@@ -28,7 +28,7 @@ else:
 
 # Define model and load model checkpoint
 generator = Generator().to(device)
-generator.load_state_dict(torch.load(opt.checkpoint_model))
+generator.load_state_dict(torch.load(opt.model))
 generator.eval()
 
 # Prepare input

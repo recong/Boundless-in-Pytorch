@@ -2,7 +2,6 @@
 
 Unofficial pytorch implementation of [Boundless: Generative Adversarial Networks for Image Extension](https://arxiv.org/abs/1908.07007).
 I used this code [esrgan](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations/esrgan) as reference.
-Evaluation mode is coming soon.
 
 ## Requirements
 
