@@ -8,7 +8,6 @@ from torchvision.utils import save_image
 from torch.autograd import Variable
 
 from models import *
-from datasets import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--image_path", default='Sample/lena_color_512.png')
@@ -51,9 +50,11 @@ image_tensor = Variable(clip).to(device).unsqueeze(0)
 
 # Calculate image
 with torch.no_grad():
-    gen_hr = generator(image_tensor)
-    gen_hr = gen_hr * mask + img
-    img_grid = denormalize(gen_hr)
+    gen = generator(image_tensor)
+    gen_f = gen * mask + img * (1 - mask)
     fn = opt.image_path.split("/")[-1]
-    save_image(img_grid, opt.output + f"/{fn}")
-    print(f'Output generated image {fn}')
+
+    # save_image((img + 1) * 0.5, opt.output + f"/raw.png")
+    # save_image((gen + 1) * 0.5, opt.output + f"/gen.png")
+    save_image((gen_f + 1) * 0.5, opt.output + f"/gen_{fn}")
+    print(f'Output generated image gen_{fn}')
