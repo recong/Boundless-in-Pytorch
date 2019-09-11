@@ -46,7 +46,6 @@ hr_shape = opt.hr_shape
 ie = InceptionExtractor().to(device)
 generator = Generator().to(device)
 discriminator = Discriminator().to(device)
-setting = 512
 
 # Summary of the networks
 summary(generator, (4, hr_shape, hr_shape))

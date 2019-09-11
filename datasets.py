@@ -38,11 +38,11 @@ class ImageDataset(Dataset):
     def __getitem__(self, index):
         hr_shape = self.hr_shape
         ratio = self.ratio
-        edge = int(hr_shape * ratio)
+        edge = int(hr_shape * ratio) + random.randint(-4, 4)
         a = Image.open(self.files[index % len(self.files)])
         width, height = a.size
         a = np.asarray(a).astype("f").transpose(2, 0, 1) / 127.5 - 1.0
-        x = random.randint(0, height - hr_shape)  # not good 64
+        x = random.randint(0, height - hr_shape)
         y = random.randint(0, width - hr_shape)
         a = a[:, x:x + hr_shape, y:y + hr_shape]
         c = np.zeros((hr_shape, hr_shape))  # make mask
