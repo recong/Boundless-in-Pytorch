@@ -9,6 +9,7 @@ from torch.autograd import Variable
 from models import *
 from datasets import *
 from torchsummary import summary
+from torch.backends import cudnn
 
 import torch
 
@@ -32,13 +33,18 @@ parser.add_argument("--lambda_adv", type=float, default=1e-2, help="adversarial 
 parser.add_argument("--save_images", default='images', help="where to store images")
 parser.add_argument("--save_models", default='saved_models', help="where to save models")
 parser.add_argument("--mask_ratio", type=float, default=0.25, help="the ratio of pixels in the image are respectively masked")
+parser.add_argument("--gpu", type=int, default=0, help="gpu number")
 opt = parser.parse_args()
 print(opt)
 
 os.makedirs(opt.save_images, exist_ok=True)
 os.makedirs(opt.save_models, exist_ok=True)
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.cuda.is_available():
+    torch.cuda.set_device(opt.gpu)
+    device = torch.device('cuda:{}'.format(opt.gpu))
+else:
+    device = torch.device('cpu')
 
 hr_shape = opt.hr_shape
 
