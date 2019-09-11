@@ -62,7 +62,6 @@ summary(ie, (4, hr_shape, hr_shape))
 ie.eval()
 
 # Losses
-criterion_GAN = torch.nn.BCEWithLogitsLoss().to(device)
 criterion_content = torch.nn.L1Loss().to(device)
 criterion_pixel = torch.nn.L1Loss().to(device)
 
