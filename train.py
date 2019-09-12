@@ -18,8 +18,8 @@ parser.add_argument("--epoch", type=int, default=0, help="epoch to start trainin
 parser.add_argument("--n_epochs", type=int, default=10000, help="number of epochs of training")
 parser.add_argument("--dataset_name", type=str, default="Pic", help="name of the dataset")
 parser.add_argument("--batch_size", type=int, default=20, help="size of the batches")
-parser.add_argument("--lr_g", type=float, default=1e-4, help="adam: learning rate")
-parser.add_argument("--lr_d", type=float, default=1e-3, help="adam: learning rate")
+parser.add_argument("--lr_g", type=float, default=1e-4, help="adam: learning rate of generator")
+parser.add_argument("--lr_d", type=float, default=1e-3, help="adam: learning rate of discriminator")
 parser.add_argument("--b1", type=float, default=0.5, help="adam: decay of first order momentum of gradient")
 parser.add_argument("--b2", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
 parser.add_argument("--n_cpu", type=int, default=8, help="number of cpu threads to use during batch generation")
@@ -152,8 +152,8 @@ for epoch in range(opt.epoch, opt.n_epochs):
         # --------------
         D_loss += loss_D.item()
         G_loss += loss_G.item()
-        adv = loss_GAN.item()
-        pixel = loss_pixel.item()
+        adv += loss_GAN.item()
+        pixel += loss_pixel.item()
 
     avg_D_loss = D_loss / len(dataloader)
     avg_G_loss = G_loss / len(dataloader)
