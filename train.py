@@ -1,5 +1,6 @@
 import argparse
 from datetime import datetime
+import os
 
 from torchvision.utils import save_image
 from torch.utils.data import DataLoader
@@ -54,7 +55,7 @@ discriminator = Discriminator().to(device)
 # Summary of the networks
 summary(generator, (5, hr_shape, hr_shape))
 summary(discriminator, [(3, hr_shape, hr_shape), (1, hr_shape, hr_shape), (1, 1, 1000)])
-summary(ie, (4, hr_shape, hr_shape))
+summary(ie, (3, hr_shape, hr_shape))
 
 # Set feature extractor to inference mode
 ie.eval()

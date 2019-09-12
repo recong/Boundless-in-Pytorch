@@ -1,8 +1,6 @@
 import torch.nn as nn
-import torch.nn.functional as F
 import torch
 from torchvision.models import inception_v3
-import math
 
 
 class Flatten(nn.Module):
@@ -118,7 +116,6 @@ class Generator(nn.Module):
 class Discriminator(nn.Module):
     def __init__(self):
         super(Discriminator, self).__init__()
-        self.output_shape = [1]
 
         self.layer1 = nn.Sequential(
             nn.utils.spectral_norm(nn.Conv2d(4, 64, kernel_size=5, stride=2, padding=2)),
@@ -148,16 +145,9 @@ class Discriminator(nn.Module):
             nn.utils.spectral_norm(nn.Conv2d(256, 256, kernel_size=5, stride=1, padding=0)),
             nn.LeakyReLU(),
         )
-        self.layer8 = nn.Sequential(
-            Flatten()
-        )
+        self.layer8 = Flatten()
         self.layer9 = nn.Linear(4096, 256, bias=False)  # It might not be correct
-
-        self.layer10 = nn.Sequential(
-            Flatten(),
-            nn.Linear(1000, 256, bias=False)
-        )
-
+        self.layer10 = nn.Linear(1000, 256, bias=False)
         self.layer11 = nn.Linear(256, 1, bias=False)
 
     def forward(self, x, y, z):
