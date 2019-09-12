@@ -23,7 +23,7 @@ glob
 1. Run the script using command 'python test.py'
 
 
-In this code, input size is 512 x 512(in original paper, 257 x 257).
-Due to this change, I have to align the outputs' size of the layers and add the additional layer(layer 10) in the discriminator.
+In this code, the input size is 512 x 512(in original paper, 257 x 257).
+Due to this change, I intend to align the outputs' sizes of the layers and add an additional layer(layer 10) to the discriminator.
 
 Please let me know if you have any problems.
