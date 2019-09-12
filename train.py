@@ -6,7 +6,6 @@ from torchvision.utils import save_image
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 
-from models import *
 from datasets import *
 from torchsummary import summary
 
@@ -24,7 +23,7 @@ parser.add_argument("--lr_d", type=float, default=1e-3, help="adam: learning rat
 parser.add_argument("--b1", type=float, default=0.5, help="adam: decay of first order momentum of gradient")
 parser.add_argument("--b2", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
 parser.add_argument("--n_cpu", type=int, default=8, help="number of cpu threads to use during batch generation")
-parser.add_argument("--hr_shape", type=int, default=512, help="training image size")
+parser.add_argument("--hr_shape", type=int, default=256, help="training image size 256 or 512")
 parser.add_argument("--sample_interval", type=int, default=10, help="interval between saving image samples")
 parser.add_argument("--checkpoint_interval", type=int, default=500, help="batch interval between model checkpoints")
 parser.add_argument("--warmup_epochs", type=int, default=0, help="number of epochs with pixel-wise loss only")
@@ -48,6 +47,12 @@ else:
 hr_shape = opt.hr_shape
 
 # Initialize generator and discriminator
+if hr_shape == 256:
+    from models_256 import *
+elif hr_shape == 512:
+    from models_512 import *
+else:
+    print('This input shape is not available')
 ie = InceptionExtractor().to(device)
 generator = Generator().to(device)
 discriminator = Discriminator().to(device)
