@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
 import torch
-from torchvision.models import vgg19, inception_v3
+from torchvision.models import inception_v3
 import math
 
 
@@ -14,7 +14,7 @@ class Generator(nn.Module):
     def __init__(self):
         super(Generator, self).__init__()
         self.layer1 = nn.Sequential(
-            nn.Conv2d(4, 32, kernel_size=5, stride=1, padding=2),
+            nn.Conv2d(5, 32, kernel_size=5, stride=1, padding=2),
             nn.ELU(),
         )
         self.layer2 = nn.Sequential(

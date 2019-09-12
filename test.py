@@ -43,8 +43,9 @@ img_masked = img * (1 - mask)  # apply mask
 img = torch.from_numpy(img).to(device)
 
 mask = torch.from_numpy(mask)
+mask_one = torch.ones((height, width), dtype=torch.float64)
 img_masked = torch.from_numpy(img_masked)
-clip = torch.cat([img_masked, mask]).float()
+clip = torch.cat([img_masked, mask_one[None, :, :], mask]).float()
 mask = mask.float().to(device)
 image_tensor = Variable(clip).to(device).unsqueeze(0)
 

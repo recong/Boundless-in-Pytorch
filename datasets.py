@@ -48,12 +48,13 @@ class ImageDataset(Dataset):
         c = np.zeros((hr_shape, hr_shape))  # make mask
         c[:, :edge] = 1
         c = c[np.newaxis, :, :]
+        d = torch.ones((hr_shape, hr_shape), dtype=torch.float64)
         b = a * (1 - c)  # apply mask
 
         c = torch.from_numpy(c)
         img_hr = torch.from_numpy(a)
         img_lr = torch.from_numpy(b)
-        clip = torch.cat([img_lr, c])
+        clip = torch.cat([img_lr, d[None, :, :], c])
 
         return {"lr": img_lr, "hr": img_hr, 'alpha': c, 'clip': clip}
 

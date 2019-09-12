@@ -52,7 +52,7 @@ generator = Generator().to(device)
 discriminator = Discriminator().to(device)
 
 # Summary of the networks
-summary(generator, (4, hr_shape, hr_shape))
+summary(generator, (5, hr_shape, hr_shape))
 summary(discriminator, [(3, hr_shape, hr_shape), (1, hr_shape, hr_shape), (1, 1, 1000)])
 summary(ie, (4, hr_shape, hr_shape))
 
