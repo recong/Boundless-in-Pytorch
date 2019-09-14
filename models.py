@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch
-from torchvision.models import inception_v3
+from torchvision.models import resnet152, inception_v3
 
 
 class Flatten(nn.Module):
@@ -113,9 +113,75 @@ class Generator(nn.Module):
         return out
 
 
-class Discriminator(nn.Module):
+class Discriminator256(nn.Module):
     def __init__(self):
-        super(Discriminator, self).__init__()
+        super(Discriminator256, self).__init__()
+
+        self.layer1 = nn.Sequential(
+            nn.utils.spectral_norm(nn.Conv2d(4, 64, kernel_size=5, stride=2, padding=2)),
+            nn.LeakyReLU(),
+        )
+        self.layer2 = nn.Sequential(
+            nn.utils.spectral_norm(nn.Conv2d(64, 128, kernel_size=5, stride=2, padding=2)),
+            nn.LeakyReLU(),
+        )
+        self.layer3 = nn.Sequential(
+            nn.utils.spectral_norm(nn.Conv2d(128, 256, kernel_size=5, stride=2, padding=2)),
+            nn.LeakyReLU(),
+        )
+        self.layer4 = nn.Sequential(
+            nn.utils.spectral_norm(nn.Conv2d(256, 256, kernel_size=5, stride=2, padding=2)),
+            nn.LeakyReLU(),
+        )
+        self.layer5 = nn.Sequential(
+            nn.utils.spectral_norm(nn.Conv2d(256, 256, kernel_size=5, stride=2, padding=2)),
+            nn.LeakyReLU(),
+        )
+        self.layer6 = nn.Sequential(
+            nn.utils.spectral_norm(nn.Conv2d(256, 256, kernel_size=5, stride=2, padding=2)),
+            nn.LeakyReLU(),
+        )
+        self.layer7 = nn.Sequential(
+            nn.utils.spectral_norm(nn.Conv2d(256, 256, kernel_size=4, stride=1, padding=0)),
+            nn.LeakyReLU(),
+        )
+        self.layer8 = Flatten()
+        # self.layer9 = nn.Linear(4096, 256, bias=False)
+        self.layer10 = nn.Linear(1000, 256, bias=False)
+        self.layer11 = nn.Linear(256, 1, bias=False)
+
+    def forward(self, x, y, z):
+        out = torch.cat([x, y], dim=1)
+        out = self.layer1(out)
+        out = self.layer2(out)
+        out = self.layer3(out)
+        out = self.layer4(out)
+        out = self.layer5(out)
+        out = self.layer6(out)
+        out = self.layer7(out)
+        out = self.layer8(out)
+        # out = self.layer9(out)
+        out_t = self.layer11(out)
+
+        z = self.layer10(z)
+        out = (out * z).sum(1, keepdim=True)
+        out = torch.add(out, out_t)
+        return out
+
+
+class InceptionExtractor256(nn.Module):
+    def __init__(self):
+        super(InceptionExtractor256, self).__init__()
+        self.inception_v3 = resnet152(pretrained=True)
+
+    def forward(self, x):
+        x = self.inception_v3(x)
+        return x
+
+
+class Discriminator512(nn.Module):
+    def __init__(self):
+        super(Discriminator512, self).__init__()
 
         self.layer1 = nn.Sequential(
             nn.utils.spectral_norm(nn.Conv2d(4, 64, kernel_size=5, stride=2, padding=2)),
@@ -169,9 +235,9 @@ class Discriminator(nn.Module):
         return out
 
 
-class InceptionExtractor(nn.Module):
+class InceptionExtractor512(nn.Module):
     def __init__(self):
-        super(InceptionExtractor, self).__init__()
+        super(InceptionExtractor512, self).__init__()
         self.inception_v3 = inception_v3(pretrained=True)
 
     def forward(self, x):

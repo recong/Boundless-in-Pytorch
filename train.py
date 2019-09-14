@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from torch.autograd import Variable
 
 from datasets import *
+from models import *
 from torchsummary import summary
 
 import torch
@@ -47,15 +48,17 @@ else:
 hr_shape = opt.hr_shape
 
 # Initialize generator and discriminator
+generator = Generator().to(device)
 if hr_shape == 256:
-    from models_256 import *
+    ie = InceptionExtractor256().to(device)
+    discriminator = Discriminator256().to(device)
+
 elif hr_shape == 512:
-    from models_512 import *
+    ie = InceptionExtractor512().to(device)
+    discriminator = Discriminator512().to(device)
 else:
     print('This input shape is not available')
-ie = InceptionExtractor().to(device)
-generator = Generator().to(device)
-discriminator = Discriminator().to(device)
+    exit()
 
 # Summary of the networks
 summary(generator, (5, hr_shape, hr_shape))
