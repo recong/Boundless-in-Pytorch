@@ -15,7 +15,7 @@ random
 glob
 ```
 
-# Prepare a dataset
+## Prepare a dataset
 1. Download a dataset ```wget http://data.csail.mit.edu/places/places365/train_256_places365standard.tar```
 2. Unpack a tar file ```tar -xvf train_256_places365standard.tar```
 3. Run the script using command ```python make_datasets.py```
