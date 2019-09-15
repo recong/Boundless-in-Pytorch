@@ -21,8 +21,7 @@ glob
 3. Run the script using command ```python make_datasets.py```
 
 ## Train
-1. Set the datasets of images in the folder './Pic'
-2. Run the script using command ```python train.py```
+1. Run the script using command ```python train.py```
 
 ## Test
 1. Run the script using command ```python test.py```
