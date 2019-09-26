@@ -7,7 +7,7 @@ import torch
 from torchvision.utils import save_image
 from torch.autograd import Variable
 
-from models_256 import *
+from models import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--image_path", default='Sample/lena_color_512.png')
