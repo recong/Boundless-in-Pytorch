@@ -1,85 +1,65 @@
 import torch.nn as nn
 import torch
 from torchvision.models import resnet152, inception_v3
-
-
-class Flatten(nn.Module):
-    def forward(self, input):
-        return input.view(input.size(0), -1)
+from networks import Flatten, get_pad, GatedConv
 
 
 class Generator(nn.Module):
     def __init__(self):
         super(Generator, self).__init__()
         self.layer1 = nn.Sequential(
-            nn.Conv2d(5, 32, kernel_size=5, stride=1, padding=2),
-            nn.ELU(),
+            GatedConv(5, 32, 5, 1, padding=get_pad(256, 5, 1), activation=None)
         )
         self.layer2 = nn.Sequential(
-            nn.Conv2d(32, 64, kernel_size=3, stride=2, padding=1),
-            nn.ELU(),
+            GatedConv(32, 64, 3, 2, padding=get_pad(256, 4, 2), activation=None)
         )
         self.layer3 = nn.Sequential(
-            nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(64, 64, 3, 1, padding=get_pad(128, 3, 1), activation=None)
         )
         self.layer4 = nn.Sequential(
-            nn.Conv2d(64, 128, kernel_size=3, stride=2, padding=1),
-            nn.ELU(),
+            GatedConv(64, 128, 3, 2, padding=get_pad(128, 4, 2), activation=None)
         )
         self.layer5 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(128, 128, 3, 1, padding=get_pad(64, 3, 1), activation=None)
         )
         self.layer6 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(128, 128, 3, 1, padding=get_pad(64, 3, 1), activation=None)
         )
         self.layer7 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=2, dilation=2),
-            nn.ELU(),
+            GatedConv(128, 128, 3, 1, dilation=2, padding=get_pad(64, 3, 1, 2), activation=None)
         )
         self.layer8 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=4, dilation=4),
-            nn.ELU(),
+            GatedConv(128, 128, 3, 1, dilation=4, padding=get_pad(64, 3, 1, 4), activation=None)
         )
         self.layer9 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=8, dilation=8),
-            nn.ELU(),
+            GatedConv(128, 128, 3, 1, dilation=8, padding=get_pad(64, 3, 1, 8), activation=None)
         )
         self.layer10 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=16, dilation=16),
-            nn.ELU(),
+            GatedConv(128, 128, 3, 1, dilation=16, padding=get_pad(64, 3, 1, 16), activation=None)
         )
         self.layer11 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(128, 128, 3, 1, padding=get_pad(64, 3, 1), activation=None)
         )
         self.layer12 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(128, 128, 3, 1, padding=get_pad(64, 3, 1), activation=None)
         )
         self.layer13 = nn.Sequential(
             nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False)  # Pixel shuffler is better?
         )
         self.layer14 = nn.Sequential(
-            nn.Conv2d(128, 64, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(128, 64, 3, 1, padding=get_pad(128, 3, 1), activation=None)
         )
         self.layer15 = nn.Sequential(
-            nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(64, 64, 3, 1, padding=get_pad(128, 3, 1), activation=None)
         )
         self.layer16 = nn.Sequential(
             nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False)  # Pixel shuffler is better?
         )
         self.layer17 = nn.Sequential(
-            nn.Conv2d(64, 32, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(64, 32, 3, 1, padding=get_pad(256, 3, 1), activation=None)
         )
         self.layer18 = nn.Sequential(
-            nn.Conv2d(32, 16, kernel_size=3, stride=1, padding=1),
-            nn.ELU(),
+            GatedConv(32, 16, 3, 1, padding=get_pad(256, 3, 1), activation=None)
         )
         self.layer19 = nn.Sequential(
             nn.Conv2d(16, 3, kernel_size=3, stride=1, padding=1)
