@@ -53,6 +53,11 @@ if hr_shape == 256:
     ie = InceptionExtractor256().to(device)
     discriminator = Discriminator256().to(device)
 
+elif hr_shape == 257:
+    generator = Generator257().to(device)
+    ie = InceptionExtractor256().to(device)
+    discriminator = Discriminator257().to(device)
+
 elif hr_shape == 512:
     ie = InceptionExtractor512().to(device)
     discriminator = Discriminator512().to(device)

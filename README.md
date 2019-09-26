@@ -37,3 +37,6 @@ Having applied the input size 256 x 256 indicated in the paper, assuming that 25
 1. Inception_v3 in pytorch doesn’t support input size 256 x 256; thus, I implemented resnet152 instead. Details are [here](https://discuss.pytorch.org/t/error-in-training-inception-v3/23933/2)
 2. In the original paper, the kernel size is 5 x 5 in layer 7. However, this is incorrect since the input size is 4 x 4 so I specified the kernel size 4 x 4 in layer 7.
 
+## 2019/9/26 Update!
+Following the author's advice, having applied the input size 257 x 257.
+If you want to test the 257 x 257 input, prepare your dataset whose size is 257 x 257 and select it using argparse command ```--dataset_name```

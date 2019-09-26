@@ -14,6 +14,7 @@ parser.add_argument("--image_path", default='Sample/lena_color_512.png')
 parser.add_argument("--output", default='output', help="where to save output")
 parser.add_argument("--model", default="saved_models/generator_1000.pth", help="generator model pass")
 parser.add_argument("--mask_ratio", type=float, default=0.25, help="the ratio of pixels in the image are respectively masked")
+parser.add_argument("--image_size", type=int, default=256, help="test image size 256 or 257 or 512")
 parser.add_argument("--gpu", type=int, default=0, help="gpu number")
 opt = parser.parse_args()
 
@@ -26,7 +27,14 @@ else:
     device = torch.device('cpu')
 
 # Define model and load model checkpoint
-generator = Generator().to(device)
+if opt.image_size == 256 or opt.image_size == 512:
+    generator = Generator().to(device)
+elif opt.image_size == 257:
+    generator = Generator257().to(device)
+else:
+    print('Invalid image size')
+    exit()
+
 generator.load_state_dict(torch.load(opt.model))
 generator.eval()
 
