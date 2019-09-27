@@ -134,7 +134,7 @@ for epoch in range(opt.epoch, opt.n_epochs):
             continue
 
         # Extract validity predictions from discriminator
-        pred_real = discriminator(imgs_hr, img_alpha, class_cond).detach()
+        # pred_real = discriminator(imgs_hr, img_alpha, class_cond).detach()
         pred_fake = discriminator(gen_hr_d, img_alpha, class_cond)
 
         # Adversarial loss (relativistic average GAN)

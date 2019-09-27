@@ -45,7 +45,7 @@ class ImageDataset(Dataset):
         y = random.randint(0, width - hr_shape)
         a = a[:, x:x + hr_shape, y:y + hr_shape]
         c = np.zeros((hr_shape, hr_shape))  # make mask
-        c[:, :edge] = 1
+        c[:, -edge:] = 1
         c = c[np.newaxis, :, :]
         d = torch.ones((hr_shape, hr_shape), dtype=torch.float64)
         b = a * (1 - c)  # apply mask
